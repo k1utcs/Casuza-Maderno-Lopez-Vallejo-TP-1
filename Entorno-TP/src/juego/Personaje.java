@@ -53,24 +53,17 @@ public class Personaje {
 	 * @param imagen Imagen cargada previamente (o null si no hay imagen).
 	 * @param e Referencia a la instancia de Entorno.
 	 */
-	public Personaje(double x, double y, double ancho, double alto, Image imagen, Entorno e) {
+	public Personaje(double x, double y, Image imagen, Entorno e) {
 		this.x = x;
 		this.y = y;
-		this.ancho = ancho;
-		this.alto = alto;
-		this.imagen = imagen; // Guarda la imagen recibida (o null)
+		this.ancho = imagen.getWidth(null);
+		this.alto = imagen.getHeight(null);
+		this.imagen = Herramientas.cargarImagen(); // Guarda la imagen recibida (o null)
 		this.e = e;
 		this.direccion = DERECHA; // Dirección inicial: mirando a la derecha
 		this.angulo = 0; // Ángulo inicial en radianes (0 rad = mirando a la derecha)
-		this.escala = 0.2; // Escala por defecto
-		this.velocidad = 2.0; // Velocidad de movimiento inicial (2 píxeles por tick)
-	}
-
-	/**
-	 * Constructor alternativo para cuando aún no se dispone de una imagen gráfica.
-	 */
-	public Personaje(double x, double y, double ancho, double alto, Entorno e) {
-		this(x, y, ancho, alto, null, e);
+		this.escala = 0.4; // Escala por defecto
+		this.velocidad = 1.0; // Velocidad de movimiento inicial (2 píxeles por tick)
 	}
 
 	/**
@@ -130,7 +123,9 @@ public class Personaje {
 
 		// Control de bordes: restringe la posición para que el personaje no salga de la pantalla
 		if (this.e != null) {
-			// Borde izquierdo
+			/* Borde izquierdo Si el lado izquierdo del personaje intenta cruzar la coordenada 0 (se sale por la izquierda de la ventana),
+			se fija su centro en ancho / 2. Esto hace que quede "pegado" al borde izquierdo sin desaparecer.
+			*/
 			if (this.x - this.ancho / 2 < 0) {
 				this.x = this.ancho / 2;
 			}
@@ -210,49 +205,5 @@ public class Personaje {
 	public void cargarImagen(String archivo) {
 		this.imagen = Herramientas.cargarImagen(archivo);
 	}
-
-	// --- GETTERS Y SETTERS ---
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public double getAncho() {
-		return ancho;
-	}
-
-	public double getAlto() {
-		return alto;
-	}
-
-	public double getVelocidad() {
-		return velocidad;
-	}
-
-	public void setVelocidad(double velocidad) {
-		this.velocidad = velocidad;
-	}
-
-	public int getDireccion() {
-		return direccion;
-	}
-
-	public double getAngulo() {
-		return angulo;
-	}
-
-	public void setImagen(Image imagen) {
-		this.imagen = imagen;
-	}
 }
+
