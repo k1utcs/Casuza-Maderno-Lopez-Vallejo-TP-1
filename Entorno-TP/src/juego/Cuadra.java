@@ -15,6 +15,12 @@ public class Cuadra {
 
 	// Alto de la cuadra en píxeles
 	double alto;
+	// Arreglo de negocios
+	Casa[] casas;
+	
+	int pos;
+	
+	
 
 	public Cuadra(double x, double y, double ancho, double alto) {
 		this.x = x;
@@ -32,20 +38,4 @@ public class Cuadra {
 		e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.GRAY);
 	}
 
-	// Getters para consultar las propiedades de la cuadra si fuera necesario
-	public double getX() {
-		return x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public double getAncho() {
-		return ancho;
-	}
-
-	public double getAlto() {
-		return alto;
-	}
 }

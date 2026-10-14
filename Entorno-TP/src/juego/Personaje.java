@@ -53,16 +53,16 @@ public class Personaje {
 	 * @param imagen Imagen cargada previamente (o null si no hay imagen).
 	 * @param e Referencia a la instancia de Entorno.
 	 */
-	public Personaje(double x, double y, Image imagen, Entorno e) {
+	public Personaje(double x, double y, Entorno e) {
 		this.x = x;
 		this.y = y;
+		this.imagen = Herramientas.cargarImagen("pj.png"); // Guarda la imagen recibida (o null)
 		this.ancho = imagen.getWidth(null);
 		this.alto = imagen.getHeight(null);
-		this.imagen = Herramientas.cargarImagen(); // Guarda la imagen recibida (o null)
 		this.e = e;
 		this.direccion = DERECHA; // Dirección inicial: mirando a la derecha
 		this.angulo = 0; // Ángulo inicial en radianes (0 rad = mirando a la derecha)
-		this.escala = 0.4; // Escala por defecto
+		this.escala = 0.1; // Escala por defecto
 		this.velocidad = 1.0; // Velocidad de movimiento inicial (2 píxeles por tick)
 	}
 
@@ -72,87 +72,19 @@ public class Personaje {
 	 * 
 	 * @param nuevaDireccion Entero que representa la nueva dirección (0, 1, 2 o 3).
 	 */
-	public void girar(int nuevaDireccion) {
-		this.direccion = nuevaDireccion;
 
-		// En Entorno el eje Y crece hacia abajo:
-		// 0 rad = Derecha, PI/2 rad = Abajo, PI rad = Izquierda, 3*PI/2 rad (o -PI/2) = Arriba
-		if (nuevaDireccion == ARRIBA) {
-			this.angulo = 3 * Math.PI / 2; // Apunta hacia arriba (270°)
-		} else if (nuevaDireccion == DERECHA) {
-			this.angulo = 0;               // Apunta hacia la derecha (0°)
-		} else if (nuevaDireccion == ABAJO) {
-			this.angulo = Math.PI / 2;     // Apunta hacia abajo (90°)
-		} else if (nuevaDireccion == IZQUIERDA) {
-			this.angulo = Math.PI;         // Apunta hacia la izquierda (180°)
+
+
+	public void mover(double hor,double ver) {
+		this.x += (hor * this.velocidad);
+		this.y += (ver * this.velocidad);
 		}
-	}
-
-	// Métodos auxiliares específicos para girar cómodamente en cada dirección
-	public void girarArriba() {
-		girar(ARRIBA);
-	}
-
-	public void girarDerecha() {
-		girar(DERECHA);
-	}
-
-	public void girarAbajo() {
-		girar(ABAJO);
-	}
-
-	public void girarIzquierda() {
-		girar(IZQUIERDA);
-	}
-
-	/**
-	 * Desplaza al personaje un paso según su dirección actual y su velocidad.
-	 * Además, evita que el personaje se escape de los límites de la pantalla del juego.
-	 */
-	public void mover() {
-		// Movimiento en los ejes según la dirección actual
-		if (this.direccion == ARRIBA) {
-			this.y -= this.velocidad;
-		} else if (this.direccion == ABAJO) {
-			this.y += this.velocidad;
-		} else if (this.direccion == DERECHA) {
-			this.x += this.velocidad;
-		} else if (this.direccion == IZQUIERDA) {
-			this.x -= this.velocidad;
-		}
-
-		// Control de bordes: restringe la posición para que el personaje no salga de la pantalla
-		if (this.e != null) {
-			/* Borde izquierdo Si el lado izquierdo del personaje intenta cruzar la coordenada 0 (se sale por la izquierda de la ventana),
-			se fija su centro en ancho / 2. Esto hace que quede "pegado" al borde izquierdo sin desaparecer.
-			*/
-			if (this.x - this.ancho / 2 < 0) {
-				this.x = this.ancho / 2;
-			}
-			// Borde derecho
-			if (this.x + this.ancho / 2 > this.e.ancho()) {
-				this.x = this.e.ancho() - this.ancho / 2;
-			}
-			// Borde superior
-			if (this.y - this.alto / 2 < 0) {
-				this.y = this.alto / 2;
-			}
-			// Borde inferior
-			if (this.y + this.alto / 2 > this.e.alto()) {
-				this.y = this.e.alto() - this.alto / 2;
-			}
-		}
-	}
 
 	/**
 	 * Sobrecarga que permite cambiar la orientación y mover en un solo paso.
 	 * 
 	 * @param direccion Dirección hacia la cual orientarse y desplazarse.
 	 */
-	public void mover(int direccion) {
-		this.girar(direccion);
-		this.mover();
-	}
 
 	/**
 	 * Verifica si el personaje colisiona con una Cuadra.
@@ -185,7 +117,7 @@ public class Personaje {
 	 * @param entorno Instancia del Entorno donde se debe dibujar la imagen.
 	 */
 	public void mostrar(Entorno entorno) {
-		entorno.dibujarImagen(this.imagen, this.x, this.y, this.angulo, this.escala);
+		entorno.dibujarImagen(this.imagen, this.x, this.y, this.direccion*Math.PI/2, this.escala);
 		
 	}
 

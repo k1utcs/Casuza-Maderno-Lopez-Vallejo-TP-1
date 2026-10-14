@@ -8,7 +8,9 @@ public class Juego extends InterfaceJuego
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	// Instancia del personaje principal del juego
-	public Personaje personaje;
+	public Personaje rappi;
+	public Cuadra[] cuadras;
+	
 
 	Juego()
 	{
@@ -16,7 +18,7 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 
 		// Inicializamos el personaje en el centro de la pantalla (400, 300) con dimensiones 30x30
-		this.personaje = new Personaje(400, 300, 30, 30, this.entorno);
+		this.rappi = new Personaje(300,400, entorno);
 		
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -32,22 +34,22 @@ public class Juego extends InterfaceJuego
 	public void tick()
 	{
 		// Control del movimiento del personaje mediante las teclas WASD
-		if (this.entorno.estaPresionada('w') || this.entorno.estaPresionada('W')) {
-			this.personaje.girarArriba();
-			this.personaje.mover();
-		} else if (this.entorno.estaPresionada('s') || this.entorno.estaPresionada('S')) {
-			this.personaje.girarAbajo();
-			this.personaje.mover();
-		} else if (this.entorno.estaPresionada('a') || this.entorno.estaPresionada('A')) {
-			this.personaje.girarIzquierda();
-			this.personaje.mover();
-		} else if (this.entorno.estaPresionada('d') || this.entorno.estaPresionada('D')) {
-			this.personaje.girarDerecha();
-			this.personaje.mover();
+		if (this.entorno.estaPresionada('w')) {
+			this.rappi.direccion = (Personaje.ARRIBA);
+			this.rappi.mover(0, -1);
+		} else if (this.entorno.estaPresionada('s')) {
+			this.rappi.direccion = (Personaje.ABAJO);
+			this.rappi.mover(0, 1);
+		} else if (this.entorno.estaPresionada('a')) {
+			this.rappi.direccion = (Personaje.IZQUIERDA);
+			this.rappi.mover(-1,0);
+		} else if (this.entorno.estaPresionada('d')) {
+			this.rappi.direccion = (Personaje.DERECHA);
+			this.rappi.mover(1,0);
 		}
 
 		// Dibuja al personaje en el entorno
-		this.personaje.mostrar(this.entorno);
+		this.rappi.mostrar(this.entorno);
 	}
 	
 	@SuppressWarnings("unused")
