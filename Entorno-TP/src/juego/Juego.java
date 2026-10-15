@@ -10,18 +10,22 @@ public class Juego extends InterfaceJuego
 	// Instancia del personaje principal del juego
 	public Personaje rappi;
 	public Cuadra[] cuadras;
-	
+	public Fondo fondo; //creacion de fondo
 
 	Juego()
 	{
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
+		
 
 		// Inicializamos el personaje en el centro de la pantalla (400, 300) con dimensiones 30x30
 		this.rappi = new Personaje(300,400, entorno);
 		
-		// Inicia el juego!
+		this.fondo = new Fondo();
+
+				// Inicia el juego!
 		this.entorno.iniciar();
+		
 	}
 
 	/**
@@ -33,6 +37,7 @@ public class Juego extends InterfaceJuego
 	
 	public void tick()
 	{
+		 this.fondo.mostrar(this.entorno);
 		// Control del movimiento del personaje mediante las teclas WASD
 		if (this.entorno.estaPresionada('w')) {
 			this.rappi.direccion = (Personaje.ARRIBA);
@@ -48,8 +53,11 @@ public class Juego extends InterfaceJuego
 			this.rappi.mover(1,0);
 		}
 
-		// Dibuja al personaje en el entorno
-		this.rappi.mostrar(this.entorno);
+		 // Primero dibujamos el fondo
+	    this.fondo.mostrar(this.entorno);
+
+	    // Después dibujamos a Rappi 
+	    this.rappi.mostrar(this.entorno);
 	}
 	
 	@SuppressWarnings("unused")

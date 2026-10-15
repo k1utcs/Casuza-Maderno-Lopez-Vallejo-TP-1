@@ -57,12 +57,12 @@ public class Personaje {
 		this.x = x;
 		this.y = y;
 		this.imagen = Herramientas.cargarImagen("pj.png"); // Guarda la imagen recibida (o null)
-		this.ancho = imagen.getWidth(null);
-		this.alto = imagen.getHeight(null);
+		this.ancho = imagen.getWidth(null) * this.escala;
+		this.alto = imagen.getHeight(null) * this.escala;
 		this.e = e;
 		this.direccion = DERECHA; // Dirección inicial: mirando a la derecha
 		this.angulo = 0; // Ángulo inicial en radianes (0 rad = mirando a la derecha)
-		this.escala = 0.1; // Escala por defecto
+		this.escala = 0.05; // Escala por defecto
 		this.velocidad = 1.0; // Velocidad de movimiento inicial (2 píxeles por tick)
 	}
 
@@ -75,10 +75,21 @@ public class Personaje {
 
 
 
-	public void mover(double hor,double ver) {
-		this.x += (hor * this.velocidad);
-		this.y += (ver * this.velocidad);
-		}
+	public void mover(double hor, double ver) {
+	    double nuevaX = this.x + hor * this.velocidad;
+	    double nuevaY = this.y + ver * this.velocidad;
+
+	    double mitadAncho = this.ancho / 2;
+	    double mitadAlto = this.alto / 2;
+
+	    if (nuevaX >= mitadAncho && nuevaX <= 800 - mitadAncho) {
+	        this.x = nuevaX;
+	    }
+
+	    if (nuevaY >= mitadAlto && nuevaY <= 600 - mitadAlto) {
+	        this.y = nuevaY;
+	    }
+	}
 
 	/**
 	 * Sobrecarga que permite cambiar la orientación y mover en un solo paso.
@@ -118,6 +129,7 @@ public class Personaje {
 	 */
 	public void mostrar(Entorno entorno) {
 		entorno.dibujarImagen(this.imagen, this.x, this.y, this.direccion*Math.PI/2, this.escala);
+	
 		
 	}
 
