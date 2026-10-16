@@ -37,26 +37,25 @@ public class Juego extends InterfaceJuego
 	
 	public void tick()
 	{
-		 this.fondo.mostrar(this.entorno);
-		// Control del movimiento del personaje mediante las teclas WASD
-		if (this.entorno.estaPresionada('w')) {
-			this.rappi.direccion = (Personaje.ARRIBA);
-			this.rappi.mover(0, -1);
-		} else if (this.entorno.estaPresionada('s')) {
-			this.rappi.direccion = (Personaje.ABAJO);
-			this.rappi.mover(0, 1);
-		} else if (this.entorno.estaPresionada('a')) {
-			this.rappi.direccion = (Personaje.IZQUIERDA);
-			this.rappi.mover(-1,0);
-		} else if (this.entorno.estaPresionada('d')) {
-			this.rappi.direccion = (Personaje.DERECHA);
-			this.rappi.mover(1,0);
-		}
-
-		 // Primero dibujamos el fondo
+	    // Dibujar primero el fondo
 	    this.fondo.mostrar(this.entorno);
 
-	    // Después dibujamos a Rappi 
+	    // Movimiento del personaje
+	    if (this.entorno.estaPresionada('w')) {
+	        this.rappi.direccion = Personaje.ARRIBA;
+	        this.rappi.mover(0, -1);
+	    } else if (this.entorno.estaPresionada('s')) {
+	        this.rappi.direccion = Personaje.ABAJO;
+	        this.rappi.mover(0, 1);
+	    } else if (this.entorno.estaPresionada('a')) {
+	        this.rappi.direccion = Personaje.IZQUIERDA;
+	        this.rappi.mover(-1, 0);
+	    } else if (this.entorno.estaPresionada('d')) {
+	        this.rappi.direccion = Personaje.DERECHA;
+	        this.rappi.mover(1, 0);
+	    }
+
+	    // Dibujar al personaje por encima del fondo
 	    this.rappi.mostrar(this.entorno);
 	}
 	
