@@ -18,14 +18,29 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 		
 
-		// Inicializamos el personaje en el centro de la pantalla (400, 300) con dimensiones 30x30
-		this.rappi = new Personaje(300,400, entorno);
+		// Inicializamos el personaje en la pantalla
+		this.rappi = new Personaje(300, 400, entorno);
 		
 		this.fondo = new Fondo();
 
-				// Inicia el juego!
+		// Inicialización del array de cuadras (siguiendo la sintaxis del PDF de Arrays de objetos)
+		this.cuadras = new Cuadra[16];
+
+		// Centros (X e Y) calculados para los espacios vacíos del mapa
+		double[] posx = { 113, 304, 495, 683 };
+		double[] posy = { 53.0, 201.0, 348.0, 496.0 };
+		double anchoCuadra = 143;
+		double altoCuadra = 96;
+
+		int k = 0;
+		for (int f = 0; f < posy.length; f++) {
+			for (int c = 0; c < posx.length; c++) {
+				this.cuadras[k++] = new Cuadra(posx[c], posy[f], anchoCuadra, altoCuadra);
+			}
+		}
+
+		// Inicia el juego!
 		this.entorno.iniciar();
-		
 	}
 
 	/**
@@ -39,6 +54,11 @@ public class Juego extends InterfaceJuego
 	{
 	    // Dibujar primero el fondo
 	    this.fondo.mostrar(this.entorno);
+
+	    // Dibujar las cuadras recorriendo el array (sintaxis del PDF)
+	    for (int i = 0; i < this.cuadras.length; i++) {
+	        this.cuadras[i].mostrar(this.entorno);
+	    }
 
 	    // Movimiento del personaje
 	    if (this.entorno.estaPresionada('w')) {

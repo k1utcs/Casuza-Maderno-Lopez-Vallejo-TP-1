@@ -63,7 +63,7 @@ public class Personaje {
 		this.direccion = DERECHA; // Dirección inicial: mirando a la derecha
 		this.angulo = 0; // Ángulo inicial en radianes (0 rad = mirando a la derecha)
 		this.escala = 0.05; // Escala por defecto
-		this.velocidad = 1.0; // Velocidad de movimiento inicial (2 píxeles por tick)
+		this.velocidad = 1.8; // Velocidad de movimiento inicial (2 píxeles por tick)
 	}
 
 	/**
@@ -105,22 +105,35 @@ public class Personaje {
 	 * @param c Objeto Cuadra con el cual se evalúa la colisión.
 	 * @return true si hay colisión (superposición), false en caso contrario.
 	 */
-	public boolean colision(Cuadra c) {
-		if (c == null) {
-			return false;
-		}
-
+	public void colision(Cuadra c) {
+		if ()
+	
+	}
+	
+	public boolean colisionX(Cuadra c) {
 		// Distancia absoluta entre los centros en los ejes X e Y
 		double distanciaX = Math.abs(this.x - c.x);
-		double distanciaY = Math.abs(this.y - c.y);
+
 
 		// Distancia mínima requerida para que no se superpongan
 		double sumaMediosAnchos = (this.ancho / 2) + (c.ancho / 2);
+
+
+		// Hay colisión si se superponen en ambos ejes simultáneamente
+		return (distanciaX < sumaMediosAnchos);
+	}
+	public boolean colisionY(Cuadra c) {
+		// Distancia absoluta entre los centros en los ejes X e Y
+		double distanciaY = Math.abs(this.y - c.y);
+
+		// Distancia mínima requerida para que no se superpongan
 		double sumaMediosAltos = (this.alto / 2) + (c.alto / 2);
 
 		// Hay colisión si se superponen en ambos ejes simultáneamente
-		return (distanciaX < sumaMediosAnchos) && (distanciaY < sumaMediosAltos);
+		return (distanciaY < sumaMediosAltos);
 	}
+
+
 
 	/**
 	 * Dibuja la imagen del personaje en el entorno (si ya hay una imagen cargada).
