@@ -84,9 +84,10 @@ public class Juego extends InterfaceJuego
 	{
 		Juego juego = new Juego();
 	}
+	
 	public static int colision(Personaje pj, Cuadra c) {
 		//Agregrar Math.abs 
-		if( Math.abs(pj.bLeft - c.bRight ) < 5 
+		if( Math.abs(pj.bLeft - c.bRight ) < 5
 				&& (pj.bSup < c.bInf) && (pj.bInf > c.bSup)) {
 			return 3;
 		}
