@@ -12,6 +12,7 @@ public class Juego extends InterfaceJuego
 	public Cuadra[] cuadras;
 	public Fondo fondo; //creacion de fondo
 
+
 	Juego()
 	{
 		// Inicializa el objeto entorno
@@ -29,13 +30,12 @@ public class Juego extends InterfaceJuego
 		// Centros (X e Y) calculados para los espacios vacíos del mapa
 		double[] posx = { 113, 304, 495, 683 };
 		double[] posy = { 53.0, 201.0, 348.0, 496.0 };
-		double anchoCuadra = 143;
-		double altoCuadra = 96;
+		
 
 		int k = 0;
 		for (int f = 0; f < posy.length; f++) {
 			for (int c = 0; c < posx.length; c++) {
-				this.cuadras[k++] = new Cuadra(posx[c], posy[f], anchoCuadra, altoCuadra);
+				this.cuadras[k++] = new Cuadra(posx[c], posy[f]);
 			}
 		}
 
@@ -84,4 +84,20 @@ public class Juego extends InterfaceJuego
 	{
 		Juego juego = new Juego();
 	}
+	public static int colision(Personaje pj, Cuadra c) {
+		if( ((c.x - c.ancho/2 ) - (pj.x + pj.ancho/2 )) < 5) {
+			return 3;
+		}
+		if (((pj.x - pj.ancho/2) - (c.x + c.ancho/2 ) ) < 5 ) {
+			return 1;
+		}
+		if(((c.y - c.alto/2 ) - (pj.y + pj.alto/2 )) < 5) {
+			return 0;
+		}
+		if (((pj.y - pj.alto/2) - (c.y + c.alto/2 ) ) < 5 ) {
+			return 2;
+		}
+		return 4;
+	}
+		
 }

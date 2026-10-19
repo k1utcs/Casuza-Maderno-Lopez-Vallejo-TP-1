@@ -27,13 +27,12 @@ public class Cuadra {
 	
 	
 
-	public Cuadra(double x, double y, double ancho, double alto) {
+	public Cuadra(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.imagen = Herramientas.cargarImagen("vegetacion_vereda.png");
-		this.ancho = ancho;
-		this.alto = alto;
-	
+		this.ancho = imagen.getWidth(null);
+		this.alto = imagen.getHeight(null);
 			
 		}
 
@@ -46,8 +45,6 @@ public class Cuadra {
 	public void mostrar(Entorno e) {
 		if (this.imagen != null) {
 			e.dibujarImagen(this.imagen, this.x, this.y, 0, 1.0);
-		} else {
-			e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.GRAY);
 		}
 	}
 

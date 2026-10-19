@@ -105,34 +105,6 @@ public class Personaje {
 	 * @param c Objeto Cuadra con el cual se evalúa la colisión.
 	 * @return true si hay colisión (superposición), false en caso contrario.
 	 */
-	public void colision(Cuadra c) {
-		if ()
-	
-	}
-	
-	public boolean colisionX(Cuadra c) {
-		// Distancia absoluta entre los centros en los ejes X e Y
-		double distanciaX = Math.abs(this.x - c.x);
-
-
-		// Distancia mínima requerida para que no se superpongan
-		double sumaMediosAnchos = (this.ancho / 2) + (c.ancho / 2);
-
-
-		// Hay colisión si se superponen en ambos ejes simultáneamente
-		return (distanciaX < sumaMediosAnchos);
-	}
-	public boolean colisionY(Cuadra c) {
-		// Distancia absoluta entre los centros en los ejes X e Y
-		double distanciaY = Math.abs(this.y - c.y);
-
-		// Distancia mínima requerida para que no se superpongan
-		double sumaMediosAltos = (this.alto / 2) + (c.alto / 2);
-
-		// Hay colisión si se superponen en ambos ejes simultáneamente
-		return (distanciaY < sumaMediosAltos);
-	}
-
 
 
 	/**
