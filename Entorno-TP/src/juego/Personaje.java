@@ -39,7 +39,15 @@ public class Personaje {
 
 	// Referencia a la ventana de juego (objeto Entorno) para dibujar y chequear límites
 	Entorno e;
-
+	
+	double bLeft, bRight, bSup, bInf;
+	/*Bordes de la caja de colisiones del personaje.
+	bLeft = borde izquierdo
+	bRight = borde derecho
+	bSup = borde superior
+	bInf = borde inferior              */
+	
+	
 	// Sprite gráfico del personaje (puede ser null mientras no se cargue un archivo)
 	Image imagen;
 
@@ -64,6 +72,10 @@ public class Personaje {
 		this.angulo = 0; // Ángulo inicial en radianes (0 rad = mirando a la derecha)
 		this.escala = 0.05; // Escala por defecto
 		this.velocidad = 1.8; // Velocidad de movimiento inicial (2 píxeles por tick)
+		this.bLeft = (this.x - this.ancho/2);
+		this.bRight = (this.x + this.ancho/2);
+		this.bSup = (this.y + this.alto/2);
+		this.bInf = (this.y - this.alto/2);
 	}
 
 	/**

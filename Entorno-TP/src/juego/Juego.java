@@ -85,16 +85,21 @@ public class Juego extends InterfaceJuego
 		Juego juego = new Juego();
 	}
 	public static int colision(Personaje pj, Cuadra c) {
-		if( ((c.x - c.ancho/2 ) - (pj.x + pj.ancho/2 )) < 5) {
+		//Agregrar Math.abs 
+		if( Math.abs(pj.bLeft - c.bRight ) < 5 
+				&& (pj.bSup < c.bInf) && (pj.bInf > c.bSup)) {
 			return 3;
 		}
-		if (((pj.x - pj.ancho/2) - (c.x + c.ancho/2 ) ) < 5 ) {
-			return 1;
+		if( Math.abs(pj.bRight - c.bLeft ) < 5 
+				&& (pj.bSup < c.bInf) && (pj.bInf > c.bSup)) {
+			return 3;
 		}
-		if(((c.y - c.alto/2 ) - (pj.y + pj.alto/2 )) < 5) {
+		if( Math.abs(pj.bSup - c.bInf ) < 5 
+				&& (pj.bLeft < c.bRight) && (pj.bRight > c.bLeft)) {
 			return 0;
 		}
-		if (((pj.y - pj.alto/2) - (c.y + c.alto/2 ) ) < 5 ) {
+		if( Math.abs(pj.bInf - c.bSup ) < 5 
+				&& (pj.bLeft < c.bRight) && (pj.bRight > c.bLeft)){
 			return 2;
 		}
 		return 4;

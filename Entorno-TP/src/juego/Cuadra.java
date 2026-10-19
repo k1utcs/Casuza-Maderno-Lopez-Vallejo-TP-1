@@ -23,6 +23,15 @@ public class Cuadra {
 	
 	boolean esNegocio;
 	
+	
+	double bLeft, bRight, bSup, bInf;
+
+	/*Bordes de la caja de colisiones del personaje.
+	bLeft = borde izquierdo
+	bRight = borde derecho
+	bSup = borde superior
+	bInf = borde inferior */
+	
 	Image imagen;
 	
 	
@@ -33,6 +42,10 @@ public class Cuadra {
 		this.imagen = Herramientas.cargarImagen("vegetacion_vereda.png");
 		this.ancho = imagen.getWidth(null);
 		this.alto = imagen.getHeight(null);
+		this.bLeft = (this.x - this.ancho/2);
+		this.bRight = (this.x + this.ancho/2);
+		this.bSup = (this.y + this.alto/2);
+		this.bInf = (this.y - this.alto/2);
 			
 		}
 
