@@ -28,7 +28,7 @@ public class Casa {
 		this.e = e;
 		this.imagen = Herramientas.cargarImagen("casa1.png");
 		this.clase = "Casa";
-		this.escala = 0.06;
+		this.escala = 0.05;
 		this.angulo = 0;
 		// Dimensiones escaladas reales en pantalla
 		this.ancho = this.imagen.getWidth(null) * this.escala;
@@ -41,9 +41,8 @@ public class Casa {
 	 * @param entorno Instancia de Entorno donde se dibuja.
 	 */
 	public void mostrar(Entorno e) {
-		if (e != null && this.imagen != null) {
-			e.dibujarImagen(this.imagen, this.x, this.y, this.angulo, this.escala);
-		}
+		e.dibujarImagen(this.imagen, this.x, this.y, this.angulo, this.escala);
+		
 	}
 }
 

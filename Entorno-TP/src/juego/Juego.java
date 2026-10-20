@@ -20,7 +20,7 @@ public class Juego extends InterfaceJuego
 		
 
 		// Inicializamos el personaje en la pantalla
-		this.rappi = new Personaje(300, 400, entorno);
+		this.rappi = new Personaje(400, 300, entorno);
 		
 		this.fondo = new Fondo();
 
@@ -61,7 +61,7 @@ public class Juego extends InterfaceJuego
 	    }
 
 	    // Movimiento del personaje
-	    if (this.entorno.estaPresionada('w')) {
+	   /* if (this.entorno.estaPresionada('w')) {
 	        this.rappi.direccion = Personaje.ARRIBA;
 	        this.rappi.mover(0, -1);
 	    } else if (this.entorno.estaPresionada('s')) {
@@ -74,7 +74,40 @@ public class Juego extends InterfaceJuego
 	        this.rappi.direccion = Personaje.DERECHA;
 	        this.rappi.mover(1, 0);
 	    }
+*/
+	 // Movimiento del personaje
 
+	    if (this.entorno.estaPresionada('w')) {
+	        this.rappi.direccion = Personaje.ARRIBA;
+
+	        if (!hayColision(0)) {
+	            this.rappi.mover(0, -1);
+	        }
+
+	    } else if (this.entorno.estaPresionada('s')) {
+	        this.rappi.direccion = Personaje.ABAJO;
+
+	        if (!hayColision(2)) {
+	            this.rappi.mover(0, 1);
+	        }
+
+	    } else if (this.entorno.estaPresionada('a')) {
+	        this.rappi.direccion = Personaje.IZQUIERDA;
+
+	        if (!hayColision(3)) {
+	            this.rappi.mover(-1, 0);
+	        }
+
+	    } else if (this.entorno.estaPresionada('d')) {
+	        this.rappi.direccion = Personaje.DERECHA;
+
+	        if (!hayColision(1)) {
+	            this.rappi.mover(1, 0);
+	        }
+	    }
+	    
+	    
+	    
 	    // Dibujar al personaje por encima del fondo
 	    this.rappi.mostrar(this.entorno);
 	}
@@ -85,25 +118,50 @@ public class Juego extends InterfaceJuego
 		Juego juego = new Juego();
 	}
 	
+	
+	//El método colision limita el movimiento del personaje 
 	public static int colision(Personaje pj, Cuadra c) {
-		//Agregrar Math.abs 
-		if( Math.abs(pj.bLeft - c.bRight ) < 5
-				&& (pj.bSup < c.bInf) && (pj.bInf > c.bSup)) {
-			return 3;
-		}
-		if( Math.abs(pj.bRight - c.bLeft ) < 5 
-				&& (pj.bSup < c.bInf) && (pj.bInf > c.bSup)) {
-			return 3;
-		}
-		if( Math.abs(pj.bSup - c.bInf ) < 5 
-				&& (pj.bLeft < c.bRight) && (pj.bRight > c.bLeft)) {
-			return 0;
-		}
-		if( Math.abs(pj.bInf - c.bSup ) < 5 
-				&& (pj.bLeft < c.bRight) && (pj.bRight > c.bLeft)){
-			return 2;
-		}
-		return 4;
+
+	    // Movimiento hacia arriba
+	    if (Math.abs(pj.bSup - c.bInf) < 3  && pj.bLeft < c.bRight
+	            && pj.bRight > c.bLeft) {
+	        return 0;
+	    }
+
+	    // Movimiento hacia la derecha
+	    if (Math.abs(pj.bRight - c.bLeft) < 2 && pj.bSup < c.bInf
+	            && pj.bInf > c.bSup) {
+	        return 1;
+	    }
+
+	    // Movimiento hacia abajo
+	    if (Math.abs(pj.bInf - c.bSup) < 3 && pj.bLeft < c.bRight
+	            && pj.bRight > c.bLeft) {
+	        return 2;
+	    }
+
+	    // Movimiento hacia la izquierda
+	    if (Math.abs(pj.bLeft - c.bRight) < 3 && pj.bSup < c.bInf
+	            && pj.bInf > c.bSup) {
+	        return 3;
+	    }
+
+	    return 4;
+	}
+	
+	
+	
+	private boolean hayColision(int direccion) {
+
+	    for (Cuadra c : this.cuadras) {
+	        int resultado = colision(this.rappi, c);
+	        
+	        if (resultado == direccion) {
+	            return true;
+	        }
+	    }
+
+	    return false;
 	}
 		
 }

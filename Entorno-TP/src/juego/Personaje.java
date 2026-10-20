@@ -64,18 +64,28 @@ public class Personaje {
 	public Personaje(double x, double y, Entorno e) {
 		this.x = x;
 		this.y = y;
+		this.escala = 0.04; // Escala por defecto
+		
 		this.imagen = Herramientas.cargarImagen("pj.png"); // Guarda la imagen recibida (o null)
+		
 		this.ancho = imagen.getWidth(null) * this.escala;
+		
 		this.alto = imagen.getHeight(null) * this.escala;
+		
 		this.e = e;
+		
 		this.direccion = DERECHA; // Dirección inicial: mirando a la derecha
+		
 		this.angulo = 0; // Ángulo inicial en radianes (0 rad = mirando a la derecha)
-		this.escala = 0.05; // Escala por defecto
-		this.velocidad = 1.8; // Velocidad de movimiento inicial (2 píxeles por tick)
+
+		this.velocidad = 1.6; // Velocidad de movimiento inicial (2 píxeles por tick)
+		
 		this.bLeft = (this.x - this.ancho/2);
 		this.bRight = (this.x + this.ancho/2);
 		this.bSup = (this.y + this.alto/2);
 		this.bInf = (this.y - this.alto/2);
+		
+		this.actualizarBordes();
 	}
 
 	/**
@@ -84,23 +94,13 @@ public class Personaje {
 	 * 
 	 * @param nuevaDireccion Entero que representa la nueva dirección (0, 1, 2 o 3).
 	 */
-
-
-
-	public void mover(double hor, double ver) {
-	    double nuevaX = this.x + hor * this.velocidad;
-	    double nuevaY = this.y + ver * this.velocidad;
-
-	    double mitadAncho = this.ancho / 2;
-	    double mitadAlto = this.alto / 2;
-
-	    if (nuevaX >= mitadAncho && nuevaX <= 800 - mitadAncho) {
-	        this.x = nuevaX;
-	    }
-
-	    if (nuevaY >= mitadAlto && nuevaY <= 600 - mitadAlto) {
-	        this.y = nuevaY;
-	    }
+	
+	
+	public void mover(double hor,double ver) {
+		this.x += (hor * this.velocidad);
+		this.y += (ver * this.velocidad);	
+		
+		this.actualizarBordes();
 	}
 
 	/**
@@ -146,5 +146,12 @@ public class Personaje {
 	public void cargarImagen(String archivo) {
 		this.imagen = Herramientas.cargarImagen(archivo);
 	}
+	private void actualizarBordes() {
+		this.bLeft = this.x - this.ancho / 2;
+		this.bRight = this.x + this.ancho / 2;
+
+		this.bSup = this.y - this.alto / 2;
+		this.bInf = this.y + this.alto / 2;
+}
 }
 

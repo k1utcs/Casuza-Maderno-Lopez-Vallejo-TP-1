@@ -74,16 +74,15 @@ public class Cuadra {
 	 * respetando un margen de 4 píxeles entre el borde de la casa y el de la cuadra.
 	 */
 	public void inicializarCasas() {
-		// Margen de 4 píxeles hacia adentro de la cuadra
-		double margen = 0;
-
 		// Dimensiones escaladas de la casa (imagen de 1536x1024 con escala 0.01)
-		double anchoCasa = 1536 * 0.06;
-		double altoCasa = 1024 * 0.06;
+		double anchoCasa = 1536 * 0.055;
+		double altoCasa = 1024 * 0.055;
+		double margenX = -5;
+		double margenY = -2;
 
 		// Desplazamiento desde el centro de la cuadra hacia cada esquina
-		double posX = (this.ancho / 2) - margen - (anchoCasa / 2.4);
-		double posY = (this.alto / 2) - margen - (altoCasa / 2.4);
+		double posX = (this.ancho / 2) - margenX - (anchoCasa / 2);
+		double posY = (this.alto / 2) - margenY -(altoCasa / 2);
 
 		// Inicialización del array de 4 casas (siguiendo la sintaxis del PDF)
 		this.casas = new Casa[4];
