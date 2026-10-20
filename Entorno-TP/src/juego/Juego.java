@@ -60,46 +60,31 @@ public class Juego extends InterfaceJuego
 	        this.cuadras[i].mostrar(this.entorno);
 	    }
 
-	    // Movimiento del personaje
-	   /* if (this.entorno.estaPresionada('w')) {
-	        this.rappi.direccion = Personaje.ARRIBA;
-	        this.rappi.mover(0, -1);
-	    } else if (this.entorno.estaPresionada('s')) {
-	        this.rappi.direccion = Personaje.ABAJO;
-	        this.rappi.mover(0, 1);
-	    } else if (this.entorno.estaPresionada('a')) {
-	        this.rappi.direccion = Personaje.IZQUIERDA;
-	        this.rappi.mover(-1, 0);
-	    } else if (this.entorno.estaPresionada('d')) {
-	        this.rappi.direccion = Personaje.DERECHA;
-	        this.rappi.mover(1, 0);
-	    }
-*/
 	 // Movimiento del personaje
 
 	    if (this.entorno.estaPresionada('w')) {
-	        this.rappi.direccion = Personaje.ARRIBA;
+	        this.rappi.girar(Personaje.ARRIBA);
 
 	        if (!hayColision(0)) {
 	            this.rappi.mover(0, -1);
 	        }
 
 	    } else if (this.entorno.estaPresionada('s')) {
-	        this.rappi.direccion = Personaje.ABAJO;
+	        this.rappi.girar(Personaje.ABAJO);
 
 	        if (!hayColision(2)) {
 	            this.rappi.mover(0, 1);
 	        }
 
 	    } else if (this.entorno.estaPresionada('a')) {
-	        this.rappi.direccion = Personaje.IZQUIERDA;
+	        this.rappi.girar(Personaje.IZQUIERDA);
 
 	        if (!hayColision(3)) {
 	            this.rappi.mover(-1, 0);
 	        }
 
 	    } else if (this.entorno.estaPresionada('d')) {
-	        this.rappi.direccion = Personaje.DERECHA;
+	        this.rappi.girar(Personaje.DERECHA);
 
 	        if (!hayColision(1)) {
 	            this.rappi.mover(1, 0);
@@ -123,25 +108,25 @@ public class Juego extends InterfaceJuego
 	public static int colision(Personaje pj, Cuadra c) {
 
 	    // Movimiento hacia arriba
-	    if (Math.abs(pj.bSup - c.bInf) < 3  && pj.bLeft < c.bRight
+	    if (Math.abs(pj.bSup - c.bInf) < 5  && pj.bLeft < c.bRight
 	            && pj.bRight > c.bLeft) {
 	        return 0;
 	    }
 
 	    // Movimiento hacia la derecha
-	    if (Math.abs(pj.bRight - c.bLeft) < 2 && pj.bSup < c.bInf
+	    if (Math.abs(pj.bRight - c.bLeft) < 5 && pj.bSup < c.bInf
 	            && pj.bInf > c.bSup) {
 	        return 1;
 	    }
 
 	    // Movimiento hacia abajo
-	    if (Math.abs(pj.bInf - c.bSup) < 3 && pj.bLeft < c.bRight
+	    if (Math.abs(pj.bInf - c.bSup) < 5 && pj.bLeft < c.bRight
 	            && pj.bRight > c.bLeft) {
 	        return 2;
 	    }
 
 	    // Movimiento hacia la izquierda
-	    if (Math.abs(pj.bLeft - c.bRight) < 3 && pj.bSup < c.bInf
+	    if (Math.abs(pj.bLeft - c.bRight) < 5 && pj.bSup < c.bInf
 	            && pj.bInf > c.bSup) {
 	        return 3;
 	    }

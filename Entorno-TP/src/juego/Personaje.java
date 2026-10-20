@@ -40,16 +40,24 @@ public class Personaje {
 	// Referencia a la ventana de juego (objeto Entorno) para dibujar y chequear límites
 	Entorno e;
 	
+	Proyectil bala;
+	
 	double bLeft, bRight, bSup, bInf;
 	/*Bordes de la caja de colisiones del personaje.
 	bLeft = borde izquierdo
 	bRight = borde derecho
 	bSup = borde superior
-	bInf = borde inferior              */
+	bInf = borde inferior
+	*/
 	
 	
 	// Sprite gráfico del personaje (puede ser null mientras no se cargue un archivo)
 	Image imagen;
+	
+	
+	//Variables auxiliares utilizadas en el método girar
+	private double anchoOriginal;
+	private double altoOriginal;
 
 	/**
 	 * Constructor principal de la clase Personaje.
@@ -69,8 +77,12 @@ public class Personaje {
 		this.imagen = Herramientas.cargarImagen("pj.png"); // Guarda la imagen recibida (o null)
 		
 		this.ancho = imagen.getWidth(null) * this.escala;
+		this.anchoOriginal = this.ancho;
 		
 		this.alto = imagen.getHeight(null) * this.escala;
+		this.altoOriginal = this.alto;
+		
+		
 		
 		this.e = e;
 		
@@ -87,13 +99,22 @@ public class Personaje {
 		
 		this.actualizarBordes();
 	}
+	
+	
+	public void girar(int nuevaDireccion) {
+	    this.direccion = nuevaDireccion;
 
-	/**
-	 * Gira el personaje hacia una de las 4 direcciones (ARRIBA, DERECHA, ABAJO, IZQUIERDA)
-	 * y actualiza el ángulo en radianes para rotar el gráfico acordemente.
-	 * 
-	 * @param nuevaDireccion Entero que representa la nueva dirección (0, 1, 2 o 3).
-	 */
+	    if (nuevaDireccion == ARRIBA || nuevaDireccion == ABAJO) {
+	        this.ancho = this.altoOriginal * this.escala;
+	        this.alto = this.anchoOriginal * this.escala;
+	    } else {
+	        this.ancho = this.anchoOriginal * this.escala;
+	        this.alto = this.altoOriginal * this.escala;
+	    }
+
+	    this.actualizarBordes();
+	}
+	
 	
 	
 	public void mover(double hor,double ver) {
@@ -104,54 +125,24 @@ public class Personaje {
 	}
 
 	/**
-	 * Sobrecarga que permite cambiar la orientación y mover en un solo paso.
-	 * 
-	 * @param direccion Dirección hacia la cual orientarse y desplazarse.
-	 */
-
-	/**
-	 * Verifica si el personaje colisiona con una Cuadra.
-	 * Utiliza la detección de superposición de cajas alineadas a los ejes (AABB),
-	 * calculando la distancia entre los centros respecto a la suma de sus semianchos y semialtos.
-	 * 
-	 * @param c Objeto Cuadra con el cual se evalúa la colisión.
-	 * @return true si hay colisión (superposición), false en caso contrario.
-	 */
-
-
-	/**
 	 * Dibuja la imagen del personaje en el entorno (si ya hay una imagen cargada).
 	 * 
 	 * @param entorno Instancia del Entorno donde se debe dibujar la imagen.
 	 */
 	public void mostrar(Entorno entorno) {
 		entorno.dibujarImagen(this.imagen, this.x, this.y, this.direccion*Math.PI/2, this.escala);
+	}
 	
-		
-	}
-
-	/**
-	 * Sobrecarga de mostrar sin parámetros que utiliza la referencia de Entorno
-	 * almacenada en el atributo 'this.e' del personaje.
-	 */
-	public void mostrar() {
-		this.mostrar(this.e);
-	}
-
-	/**
-	 * Permite cargar y asignar una imagen al personaje a través de la clase Herramientas.
-	 * 
-	 * @param archivo Nombre o ruta del archivo de imagen (ejemplo: "PJ.jpg").
-	 */
-	public void cargarImagen(String archivo) {
-		this.imagen = Herramientas.cargarImagen(archivo);
-	}
 	private void actualizarBordes() {
 		this.bLeft = this.x - this.ancho / 2;
 		this.bRight = this.x + this.ancho / 2;
 
 		this.bSup = this.y - this.alto / 2;
 		this.bInf = this.y + this.alto / 2;
+	}
+	//public void disparar();
+	
+	
 }
-}
+
 
