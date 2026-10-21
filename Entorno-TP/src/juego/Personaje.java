@@ -82,7 +82,7 @@ public class Personaje {
 		this.alto = imagen.getHeight(null) * this.escala;
 		this.altoOriginal = this.alto;
 		
-		
+		this.vidas = 5;
 		
 		this.e = e;
 		
@@ -90,7 +90,7 @@ public class Personaje {
 		
 		this.angulo = 0; // Ángulo inicial en radianes (0 rad = mirando a la derecha)
 
-		this.velocidad = 1.6; // Velocidad de movimiento inicial (2 píxeles por tick)
+		this.velocidad = 2.5; // Velocidad de movimiento inicial (2 píxeles por tick)
 		
 		this.bLeft = (this.x - this.ancho/2);
 		this.bRight = (this.x + this.ancho/2);

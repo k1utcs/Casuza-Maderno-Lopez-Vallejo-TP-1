@@ -23,9 +23,10 @@ public class Juego extends InterfaceJuego
 		// Inicializamos el personaje en la pantalla
 		this.rappi = new Personaje(400, 300, entorno);
 		
+		//Inicializamos el fondo
 		this.fondo = new Fondo();
 
-		// Inicialización del array de cuadras (siguiendo la sintaxis del PDF de Arrays de objetos)
+		// Inicialización del array de cuadras
 		this.cuadras = new Cuadra[16];
 
 		// Centros (X e Y) calculados para los espacios vacíos del mapa
@@ -42,8 +43,6 @@ public class Juego extends InterfaceJuego
 
 		// Inicia el juego!
 		this.entorno.iniciar();
-		System.out.println(cuadras[1].casas[1].alto);
-		System.out.println(cuadras[1].casas[1].ancho);
 	}
 
 	/**
@@ -58,7 +57,7 @@ public class Juego extends InterfaceJuego
 	    // Dibujar primero el fondo
 	    this.fondo.mostrar(this.entorno);
 
-	    // Dibujar las cuadras recorriendo el array (sintaxis del PDF)
+	    // Dibujar las cuadras recorriendo el array
 	    for (int i = 0; i < this.cuadras.length; i++) {
 	        this.cuadras[i].mostrar(this.entorno);
 	    }
@@ -72,23 +71,25 @@ public class Juego extends InterfaceJuego
 	            this.rappi.mover(0, -1);
 	        }
 
-	    } else if (this.entorno.estaPresionada('s')) {
+	    }
+	    if (this.entorno.estaPresionada('s')) {
 	        this.rappi.girar(Personaje.ABAJO);
 
 	        if (!hayColision(2)) {
 	            this.rappi.mover(0, 1);
 	        }
 
-	    } else if (this.entorno.estaPresionada('a')) {
-	        this.rappi.girar(Personaje.IZQUIERDA);
-
-	        if (!hayColision(3)) {
+	    }	
+	    if (this.entorno.estaPresionada('a')) {
+	       this.rappi.girar(Personaje.IZQUIERDA);
+	       
+	       if (!hayColision(3)) {
 	            this.rappi.mover(-1, 0);
 	        }
-
-	    } else if (this.entorno.estaPresionada('d')) {
+	    } 
+	    if (this.entorno.estaPresionada('d')) {
 	        this.rappi.girar(Personaje.DERECHA);
-
+	        
 	        if (!hayColision(1)) {
 	            this.rappi.mover(1, 0);
 	        }
@@ -120,6 +121,36 @@ public class Juego extends InterfaceJuego
 	
 	//El método colision limita el movimiento del personaje 
 	public static int colision(Personaje pj, Cuadra c) {
+
+	    // Movimiento hacia arriba
+	    if (Math.abs(pj.bSup - c.bInf) < 5  && pj.bLeft < c.bRight
+	            && pj.bRight > c.bLeft) {
+	        return 0;
+	    }
+
+	    // Movimiento hacia la derecha
+	    if (Math.abs(pj.bRight - c.bLeft) < 5 && pj.bSup < c.bInf
+	            && pj.bInf > c.bSup) {
+	        return 1;
+	    }
+
+	    // Movimiento hacia abajo
+	    if (Math.abs(pj.bInf - c.bSup) < 5 && pj.bLeft < c.bRight
+	            && pj.bRight > c.bLeft) {
+	        return 2;
+	    }
+
+	    // Movimiento hacia la izquierda
+	    if (Math.abs(pj.bLeft - c.bRight) < 5 && pj.bSup < c.bInf
+	            && pj.bInf > c.bSup) {
+	        return 3;
+	    }
+
+	    return 4;
+	}
+	
+	//Sobrecarga del método colision
+	public static int colision(Personaje pj, Enemigo c) {
 
 	    // Movimiento hacia arriba
 	    if (Math.abs(pj.bSup - c.bInf) < 5  && pj.bLeft < c.bRight
