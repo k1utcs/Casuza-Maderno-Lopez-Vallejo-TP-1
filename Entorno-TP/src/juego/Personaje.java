@@ -36,11 +36,11 @@ public class Personaje {
 
 	// Ángulo de orientación actual en radianes (usado para rotar la imagen o figura)
 	double angulo;
+	
+	int vidas;
 
 	// Referencia a la ventana de juego (objeto Entorno) para dibujar y chequear límites
 	Entorno e;
-	
-	Proyectil bala;
 	
 	double bLeft, bRight, bSup, bInf;
 	/*Bordes de la caja de colisiones del personaje.
@@ -129,8 +129,8 @@ public class Personaje {
 	 * 
 	 * @param entorno Instancia del Entorno donde se debe dibujar la imagen.
 	 */
-	public void mostrar(Entorno entorno) {
-		entorno.dibujarImagen(this.imagen, this.x, this.y, this.direccion*Math.PI/2, this.escala);
+	public void mostrar() {
+		e.dibujarImagen(this.imagen, this.x, this.y, this.direccion*Math.PI/2, this.escala);
 	}
 	
 	private void actualizarBordes() {
@@ -140,7 +140,6 @@ public class Personaje {
 		this.bSup = this.y - this.alto / 2;
 		this.bInf = this.y + this.alto / 2;
 	}
-	//public void disparar();
 	
 	
 }

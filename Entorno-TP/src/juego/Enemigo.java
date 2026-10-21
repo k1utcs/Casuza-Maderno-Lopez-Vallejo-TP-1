@@ -51,6 +51,8 @@ public class Enemigo {
 	
 	// Sprite gráfico del personaje (puede ser null mientras no se cargue un archivo)
 	Image imagen;
+	private double altoOriginal;
+	private double anchoOriginal;
 	
 	
 	public Enemigo(double x, double y, Entorno e) {
@@ -68,6 +70,8 @@ public class Enemigo {
 		this.bRight = (this.x + this.ancho/2);
 		this.bSup = (this.y + this.alto/2);
 		this.bInf = (this.y - this.alto/2);
+		this.altoOriginal = this.alto;
+		this.anchoOriginal = this.ancho;
 	}
 
 		/**
@@ -80,6 +84,45 @@ public class Enemigo {
 		 * @param imagen Imagen cargada previamente (o null si no hay imagen).
 		 * @param e Referencia a la instancia de Entorno.
 		 */
+	public void girar(int nuevaDireccion) {
+	    this.direccion = nuevaDireccion;
+
+	    if (nuevaDireccion == ARRIBA || nuevaDireccion == ABAJO) {
+	        this.ancho = this.altoOriginal * this.escala;
+	        this.alto = this.anchoOriginal * this.escala;
+	    } else {
+	        this.ancho = this.anchoOriginal * this.escala;
+	        this.alto = this.altoOriginal * this.escala;
+	    }
+
+	    this.actualizarBordes();
+	}
+	
+	
+	
+	public void mover(double hor,double ver) {
+		this.x += (hor * this.velocidad);
+		this.y += (ver * this.velocidad);	
+		
+		this.actualizarBordes();
+	}
+
+	/**
+	 * Dibuja la imagen del personaje en el entorno (si ya hay una imagen cargada).
+	 * 
+	 * @param entorno Instancia del Entorno donde se debe dibujar la imagen.
+	 */
+	public void mostrar() {
+		e.dibujarImagen(this.imagen, this.x, this.y, this.direccion*Math.PI/2, this.escala);
+	}
+	
+	private void actualizarBordes() {
+		this.bLeft = this.x - this.ancho / 2;
+		this.bRight = this.x + this.ancho / 2;
+
+		this.bSup = this.y - this.alto / 2;
+		this.bInf = this.y + this.alto / 2;
+	}
 
 
 }

@@ -90,11 +90,12 @@ public class Cuadra {
 		// Desplazamientos para las 4 esquinas:
 		// 0: Noroeste (Arriba-Izquierda), 1: Noreste (Arriba-Derecha)
 		// 2: Sudoeste (Abajo-Izquierda),  3: Sudeste (Abajo-Derecha)
-		double[] offsetsX = { -posX,  posX, -posX,  posX };
-		double[] offsetsY = { -posY, -posY,  posY,  posY };
+		//Prestablecidos X e Y
+		double[] preX = { -posX,  posX, -posX,  posX };
+		double[] preY = { -posY, -posY,  posY,  posY };
 
 		for (int i = 0; i < this.casas.length; i++) {
-			this.casas[i] = new Casa(this.x + offsetsX[i], this.y + offsetsY[i]);
+			this.casas[i] = new Casa(this.x + preX[i], this.y + preY[i]);
 			this.casas[i].pos = i;
 		}
 	}
@@ -111,7 +112,7 @@ public class Cuadra {
 
 		// Dibujar las casas de esta cuadra
 			for (int i = 0; i < this.casas.length; i++) {
-					this.casas[i].mostrar(e);
+				this.casas[i].mostrar(e);
 				}
 			}
 }

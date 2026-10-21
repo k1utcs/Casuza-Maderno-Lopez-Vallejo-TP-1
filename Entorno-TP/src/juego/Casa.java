@@ -42,7 +42,11 @@ public class Casa {
 	 */
 	public void mostrar(Entorno e) {
 		e.dibujarImagen(this.imagen, this.x, this.y, this.angulo, this.escala);
+	}
+	public void generarTipo() {
 		
 	}
+	
+	
 }
 

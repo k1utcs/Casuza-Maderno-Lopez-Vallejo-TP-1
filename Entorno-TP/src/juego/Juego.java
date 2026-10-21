@@ -11,7 +11,8 @@ public class Juego extends InterfaceJuego
 	public Personaje rappi;
 	public Cuadra[] cuadras;
 	public Fondo fondo; //creacion de fondo
-
+	public Proyectil bala;
+	public Enemigo[] enemigos;
 
 	Juego()
 	{
@@ -41,6 +42,8 @@ public class Juego extends InterfaceJuego
 
 		// Inicia el juego!
 		this.entorno.iniciar();
+		System.out.println(cuadras[1].casas[1].alto);
+		System.out.println(cuadras[1].casas[1].ancho);
 	}
 
 	/**
@@ -91,10 +94,21 @@ public class Juego extends InterfaceJuego
 	        }
 	    }
 	    
-	    
+	    if(this.entorno.estaPresionado(entorno.BOTON_IZQUIERDO) && this.bala == null) {
+	    	this.bala = new Proyectil(rappi.x, rappi.y, rappi.direccion, entorno);
+	    }
 	    
 	    // Dibujar al personaje por encima del fondo
-	    this.rappi.mostrar(this.entorno);
+	    this.rappi.mostrar();
+	    
+	    
+	    if(bala != null) {
+	    	this.bala.mostrar();
+	    	this.bala.mover();
+	    	if(this.bala.x<-50 || this.bala.x > 850 || this.bala.y < -50 || this.bala.y > 650) {
+	    		this.bala = null;
+	    	}
+	    }
 	}
 	
 	@SuppressWarnings("unused")
