@@ -72,7 +72,7 @@ public class Personaje {
 	public Personaje(double x, double y, Entorno e) {
 		this.x = x;
 		this.y = y;
-		this.escala = 0.04; // Escala por defecto
+		this.escala = 0.045; // Escala por defecto
 		
 		this.imagen = Herramientas.cargarImagen("pj.png"); // Guarda la imagen recibida (o null)
 		
@@ -119,7 +119,7 @@ public class Personaje {
 	
 	public void mover(double hor,double ver) {
 		this.x += (hor * this.velocidad);
-		this.y += (ver * this.velocidad);	
+		this.y += (ver * this.velocidad);
 		
 		this.actualizarBordes();
 	}
@@ -141,6 +141,11 @@ public class Personaje {
 		this.bInf = this.y + this.alto / 2;
 	}
 	
+	public void perderVida() {
+	    if (this.vidas > 0) {
+	        this.vidas = this.vidas - 1;
+	    }
+	}
 	
 }
 
