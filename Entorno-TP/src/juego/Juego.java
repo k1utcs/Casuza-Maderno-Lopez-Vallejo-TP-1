@@ -37,9 +37,8 @@ public class Juego extends InterfaceJuego
 
 
 		// Centros (X e Y) calculados para los espacios vacíos del mapa
-		double[] posx = { 113, 304, 495, 683 };
-		double[] posy = { 53.0, 201.0, 348.0, 496.0 };
-
+		double[] posx = { 113, 304, 496, 686 };
+		double[] posy = { 96.0, 238.0, 375.0, 520.0 };
 
 		int k = 0;
 		for (double element : posy) {
