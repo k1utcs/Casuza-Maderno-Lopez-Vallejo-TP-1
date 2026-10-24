@@ -15,6 +15,8 @@ public class Casa {
 	
 	String clase;
 	
+	Indicador flecha;
+	
 	// Identificador de la posición preestablecida (0 a 3)
 	int pos;
 

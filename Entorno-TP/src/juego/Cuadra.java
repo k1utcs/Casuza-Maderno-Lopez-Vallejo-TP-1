@@ -42,7 +42,7 @@ public class Cuadra {
 	public Cuadra(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.imagen = Herramientas.cargarImagen("vegetacion_vereda.png");
+		this.imagen = Herramientas.cargarImagen("cuadra.png");
 		this.ancho = imagen.getWidth(null);
 		this.alto = imagen.getHeight(null);
 		this.bLeft = (this.x - this.ancho / 2);
@@ -59,7 +59,7 @@ public class Cuadra {
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
-		this.imagen = Herramientas.cargarImagen("vegetacion_vereda.png");
+		this.imagen = Herramientas.cargarImagen("cuadra.png");
 		this.bLeft = (this.x - this.ancho / 2);
 		this.bRight = (this.x + this.ancho / 2);
 		this.bSup = (this.y - this.alto / 2);

@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.Color;
+
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
@@ -15,12 +17,22 @@ public class Juego extends InterfaceJuego
 	public Enemigo[] enemigos;
 	private boolean tocandoEnemigo;
 
+	
+	// Posiciones preestablecidas sobre las calles del mapa.
+	// Calles horizontales (Y fijo): 24 (borde sup), 167 (entre fila 1-2), 447 (entre fila 3-4), 584 (borde inf)
+	// Calles verticales (intersecciones): X = 208, 400, 591
+	private static final double[] SPAWN_X = {207,400,590,207,400,590,207,400,590};
+	private static final double[] SPAWN_Y = {166,166,166,305,305,305,446,446,446};
+
 	Juego()
 	{
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 
-
+		// Centros (X e Y) calculados para los espacios vacíos del mapa
+		double[] posx = {113, 303, 495, 686};
+		double[] posy = {116, 247, 379, 511};
+		
 		// Inicializamos el personaje en la pantalla
 		this.rappi = new Personaje(400, 300, entorno);
 
@@ -30,15 +42,10 @@ public class Juego extends InterfaceJuego
 		// Inicialización del array de cuadras
 		this.cuadras = new Cuadra[16];
 
-		this.enemigos = new Enemigo[3];
-		this.enemigos[0] = new Enemigo(750, 300, entorno);
-		this.enemigos[1] = new Enemigo(400, 100, entorno);
-		this.enemigos[2] = new Enemigo(500, 550, entorno);
-
-
-		// Centros (X e Y) calculados para los espacios vacíos del mapa
-		double[] posx = { 113, 304, 496, 686 };
-		double[] posy = { 96.0, 238.0, 375.0, 520.0 };
+		// Inicializamos el array de 4 enemigos en posiciones sobre las calles
+		this.enemigos = new Enemigo[4];
+		this.respawnEnemigos();
+		
 
 		int k = 0;
 		for (double element : posy) {
@@ -100,58 +107,69 @@ public class Juego extends InterfaceJuego
 	            this.rappi.mover(1, 0);
 	        }
 	    }
-
+	    
+	    //Dispara proyectiles si no hay uno existente
 	    if(this.entorno.estaPresionado(entorno.BOTON_IZQUIERDO) && this.bala == null) {
 	    	this.bala = new Proyectil(rappi.x, rappi.y, rappi.direccion, entorno);
 	    }
 	    
-	    if(this.enemigos[0].x > 5 )
-	    
-
+	   
 	    // Dibujar al personaje por encima del fondo
 	    this.rappi.mostrar();
 
-	    for (Enemigo element : this.enemigos) {
-	    	if(element != null) {
-	    		element.mostrar();
-	    	}
+	    
+	    boolean hayContacto = false;
+	    
+	    for (int i = 0; i < this.enemigos.length; i++) {
+	        if (this.enemigos[i] != null) {
+	            this.enemigos[i].mover();
+	            this.enemigos[i].mostrar();
+
+	            if (colisionEnemigo(this.rappi, this.enemigos[i])) {
+	                hayContacto = true;
+	            }
+	        }
 	    }
 	    
-
-	    boolean hayContacto = false;
-
-	    for (int i = 0; i < this.enemigos.length; i++) {
-
-	    	this.enemigos[i].mover();
-	    	this.enemigos[i].mostrar();
-
-	    	if (colisionEnemigo(this.rappi, this.enemigos[i])) {
-	    		hayContacto = true;
-	    	}
-	    }
-
+	    //Se utilizan variables auxiliares para restar vidas al personaje 1 vez por superposición
+	    // Y no una vez por tick 
 	    if (hayContacto && !this.tocandoEnemigo) {
 	    	this.rappi.perderVida();
 	    }
-
+	    
 	    this.tocandoEnemigo = hayContacto;
 
 
 
-
-	    if(bala != null) {
+	    boolean impacto = false; //Variable bandera para finalizar el ciclo
+	    
+	    
+	    if (this.bala != null) {
 	    	this.bala.mostrar();
 	    	this.bala.mover();
-	    	if(this.bala.x<-50 || this.bala.x > 850 || this.bala.y < -50 || this.bala.y > 650) {
+	    	if(this.bala.x < -20 || this.bala.x > 820 || this.bala.y < -20 || this.bala.y > 620) {
 	    		this.bala = null;
 	    	}
-	    		for(int i = 0; i < this.enemigos.length ; i++) {
-	    			if(colisionEnemigo(bala, this.enemigos[i])) {
-	    				this.bala = null;
-	    				this.enemigos[i] = null;
-	    		}
-	    	}
+	        for (int i = 0; i < this.enemigos.length; i++) {
+	            if (this.enemigos[i] != null && impacto == false && this.bala != null) {
+	                if (colisionEnemigo(this.bala, this.enemigos[i])) {
+	                    this.enemigos[i] = null;
+	                    this.bala = null;
+	                    impacto = true;
+	                }
+	               	
+	            }
+	        }
 	    }
+	    
+	    // Reponer inmediatamente los enemigos eliminados para que siempre haya 4
+	    this.respawnEnemigos();
+	    
+	    this.mostrarEstadisticas();
+	    
+	    this.terminarJuego();
+	    
+	    
 	}
 
 	@SuppressWarnings("unused")
@@ -237,9 +255,9 @@ public class Juego extends InterfaceJuego
 	}
 	
 
-public static boolean colisionEnemigo(Personaje pj, Enemigo en) {
+	public static boolean colisionEnemigo(Personaje pj, Enemigo en) {
 
-    if (pj.bRight > en.bLeft
+		if (pj.bRight > en.bLeft
             && pj.bLeft < en.bRight
             && pj.bInf > en.bSup
             && pj.bSup < en.bInf) {
@@ -249,9 +267,9 @@ public static boolean colisionEnemigo(Personaje pj, Enemigo en) {
     	}
         return false;
 	}
-public static boolean colisionEnemigo(Proyectil bala, Enemigo en) {
+	public static boolean colisionEnemigo(Proyectil bala, Enemigo en) {
 
-    if (bala.x > en.bLeft
+		if (bala.x > en.bLeft
             && bala.x < en.bRight
             && bala.y > en.bSup
             && bala.y < en.bInf) {
@@ -261,6 +279,64 @@ public static boolean colisionEnemigo(Proyectil bala, Enemigo en) {
     	}
         return false;
 	}
+	
+// Método que que dibuja información para el jugador 
+public void mostrarEstadisticas() {
+	
+	this.entorno.dibujarRectangulo(400, 20, 800, 40, 0, Color.BLACK);
+
+    // Cambiar la fuente y el color del texto
+    this.entorno.cambiarFont("Arial", 18, Color.WHITE);
+
+    // Mostrar las vidas del personaje
+    this.entorno.escribirTexto("Vidas: " + this.rappi.vidas, 80, 25);
+
+    // Contar los enemigos restantes
+    int cantidadEnemigos = 0;
+
+    for (int i = 0; i < this.enemigos.length; i++) {
+        if (this.enemigos[i] != null) {
+            cantidadEnemigos++;
+        }
+    }
+
+    this.entorno.escribirTexto(
+        "Enemigos: " + cantidadEnemigos, 250, 25
+    );
+
+    // Mostrar el estado del proyectil
+    if (this.bala == null) {
+        this.entorno.escribirTexto("Proyectil: Disponible", 480, 25);
+    } else {
+        this.entorno.escribirTexto("Proyectil: En uso", 480, 25);
+    }
+}
+	public void respawnEnemigos() {
+		for (int i = 0; i < this.enemigos.length; i++) {
+			if (this.enemigos[i] == null) {
+				// Elegir un índice aleatorio entre las posiciones preestablecidas
+				int pos = (int) (Math.random() * SPAWN_X.length);
+				this.enemigos[i] = new Enemigo(SPAWN_X[pos], SPAWN_Y[pos], this.entorno);
+			}
+		}
+		
+	}
+	public void terminarJuego() {
+		if (this.rappi.vidas <= 0) {
+			this.entorno.dibujarRectangulo(400, 300, 800, 600, 0, Color.BLACK);
+			entorno.cambiarFont("Arial", 40, Color.WHITE);
+	        entorno.escribirTexto("GAME OVER", 250, 300);
+		}
+	}
+	public void ganaste() {
+		//if (this.pedidos.entregados = 20) {
+			this.entorno.dibujarRectangulo(400, 300, 800, 600, 0, Color.BLACK);
+			entorno.cambiarFont("Arial", 40, Color.WHITE);
+	        entorno.escribirTexto("GANASTE", 290, 300);
+		//}
+		
+	}
+
 
 
 }
